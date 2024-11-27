@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Management Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="scripts.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-container">
+      <img src="./icons/avatar.png" alt="Logo" class="logo">
+      <div class="search-bar">
+        <input type="text" id="search" placeholder="Search clients..." />
+        <button class="search-button">
+          <img src="./icons/search.png" alt="Search Icon">
+        </button>
+      </div>
+    </div>
+    <h1 class="title">Client Management</h1>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="data-grid-container">
+      <table class="data-grid">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Contacts</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="client-list">
+          <!-- Rows will be inserted dynamically -->
+        </tbody>
+      </table>
+    </div>
+    <button class="add-client-button">Add Client</button>
+  </main>
+</body>
+</html>
