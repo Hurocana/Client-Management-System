@@ -14,14 +14,18 @@ const clients = [
       contactMethods: ['phone'],
     },
     {
-        id: '3',
-        fullName: 'Bruss Leme',
-        createdAt: '2024-02-17 17:30',
-        updatedAt: '2024-11-20 18:00',
-        contactMethods: ['email', 'phone'],
-      },
+      id: '3',
+      fullName: 'Bruss Leme',
+      createdAt: '2024-02-17 17:30',
+      updatedAt: '2024-11-20 18:00',
+      contactMethods: ['email', 'phone'],
+    },
   ];
   
+  let editedClient = null;
+  let clientToDelete = null;
+  
+  // Load and display clients
   function loadClients() {
     const clientList = document.getElementById('client-list');
     clientList.innerHTML = '';
@@ -54,10 +58,7 @@ const clients = [
       client.contactMethods.forEach((method) => {
         const icon = document.createElement('img');
         icon.alt = method;
-        icon.src = method === 'email'
-          ? './icons/mail.png'
-          : './icons/phone.png'
-          , './icons/phone.png';
+        icon.src = method === 'email' ? './icons/mail.png' : './icons/phone.png';
         icon.style.width = '16px';
         icon.style.height = '16px';
         icon.style.marginRight = '8px';
@@ -70,20 +71,21 @@ const clients = [
       actionCell.classList.add('action-buttons');
   
       const editButton = document.createElement('button');
-      const deleteButton = document.createElement('button');
-  
       const editIcon = document.createElement('img');
       editIcon.src = './icons/edit.png';
       editIcon.alt = 'Edit';
   
+      editButton.appendChild(editIcon);
+      editButton.addEventListener('click', () => openEditModal(client)); // Open edit modal
+      actionCell.appendChild(editButton);
+  
+      const deleteButton = document.createElement('button');
       const deleteIcon = document.createElement('img');
       deleteIcon.src = './icons/delete.png';
       deleteIcon.alt = 'Delete';
   
-      editButton.appendChild(editIcon);
       deleteButton.appendChild(deleteIcon);
-  
-      actionCell.appendChild(editButton);
+      deleteButton.addEventListener('click', () => openDeleteModal(client)); // Open delete modal
       actionCell.appendChild(deleteButton);
   
       row.appendChild(actionCell);
@@ -92,16 +94,71 @@ const clients = [
     });
   }
   
-  // Initialize
-  document.addEventListener('DOMContentLoaded', () => {
-    loadClients();
+  // Open edit modal
+  function openEditModal(client) {
+    editedClient = client;
   
-    document.getElementById('search').addEventListener('input', (event) => {
-      const query = event.target.value.toLowerCase();
-      const filteredClients = clients.filter(client =>
-        client.fullName.toLowerCase().includes(query)
-      );
-      loadClients(filteredClients);
-    });
+    document.getElementById('client-id').value = client.id;
+    document.getElementById('client-fullname').value = client.fullName;
+    document.getElementById('client-created-at').value = client.createdAt;
+    document.getElementById('client-updated-at').value = client.updatedAt;
+    document.getElementById('client-contacts').value = client.contactMethods.join(',');
+  
+    document.getElementById('edit-modal').classList.remove('hidden');
+  }
+  
+  // Close edit modal
+  function closeEditModal() {
+    editedClient = null;
+    document.getElementById('edit-modal').classList.add('hidden');
+  }
+  
+  // Save client changes
+  document.getElementById('edit-client-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+  
+    const fullName = document.getElementById('client-fullname').value;
+    const updatedAt = document.getElementById('client-updated-at').value;
+    const contactMethods = Array.from(document.getElementById('client-contacts').selectedOptions).map(opt => opt.value);
+  
+    editedClient.fullName = fullName;
+    editedClient.updatedAt = updatedAt;
+    editedClient.contactMethods = contactMethods;
+  
+    closeEditModal();
+    loadClients();
   });
+  
+  // Open delete modal
+  function openDeleteModal(client) {
+    clientToDelete = client;
+    document.getElementById('delete-modal').classList.remove('hidden');
+  }
+  
+  // Close delete modal
+  function closeDeleteModal() {
+    clientToDelete = null;
+    document.getElementById('delete-modal').classList.add('hidden');
+  }
+  
+  // Confirm delete
+  document.getElementById('confirm-delete').addEventListener('click', () => {
+    if (clientToDelete) {
+      const index = clients.indexOf(clientToDelete);
+      if (index !== -1) {
+        clients.splice(index, 1);
+        loadClients();
+      }
+    }
+    closeDeleteModal();
+  });
+  
+  // Cancel delete
+  document.getElementById('cancel-delete').addEventListener('click', closeDeleteModal);
+  
+  // Cancel edit
+  document.querySelector('.cancel-button').addEventListener('click', closeEditModal);
+  
+  // Initialize the app
+  document.addEventListener('DOMContentLoaded', loadClients);
   
