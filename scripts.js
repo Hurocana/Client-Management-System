@@ -5,6 +5,8 @@ const clients = [
     createdAt: '2024-11-01 10:00',
     updatedAt: '2024-11-10 15:30',
     contactMethods: ['email', 'phone'],
+    email: 'jane.doe@example.com',
+    phone: '+7(123)456-78-90',
   },
   {
     id: '2',
@@ -12,6 +14,7 @@ const clients = [
     createdAt: '2024-10-15 12:45',
     updatedAt: '2024-11-20 09:10',
     contactMethods: ['phone'],
+    phone: '+7(987)654-32-10',
   },
   {
     id: '3',
@@ -19,8 +22,11 @@ const clients = [
     createdAt: '2024-02-17 17:30',
     updatedAt: '2024-11-20 18:00',
     contactMethods: ['email', 'phone'],
+    email: 'bruss.leme@example.com',
+    phone: '+7(205)794-09-58',
   },
 ];
+
 
 let editedClient = null;
 let clientToDelete = null;
@@ -53,22 +59,22 @@ function loadClients() {
     idCell.textContent = client.id;
     row.appendChild(idCell);
 
-    // Full Name
+    // Полное имя
     const nameCell = document.createElement('td');
     nameCell.textContent = client.fullName;
     row.appendChild(nameCell);
 
-    // Created At
+    // Дата регистрации
     const createdCell = document.createElement('td');
     createdCell.textContent = client.createdAt;
     row.appendChild(createdCell);
 
-    // Updated At
+    // Редактировано
     const updatedCell = document.createElement('td');
     updatedCell.textContent = client.updatedAt;
     row.appendChild(updatedCell);
 
-    // Contacts
+    // Контакты
     const contactCell = document.createElement('td');
     client.contactMethods.forEach((method) => {
       const icon = document.createElement('img');
@@ -77,11 +83,20 @@ function loadClients() {
       icon.style.width = '16px';
       icon.style.height = '16px';
       icon.style.marginRight = '8px';
+
+      // Добавляем tooltip
+      const tooltipText =
+        method === 'email'
+          ? `Email: ${client.email || 'Not Provided'}`
+          : `Phone: ${client.phone || 'Not Provided'}`;
+      icon.title = tooltipText;
+
+      // Иконка телефону
       contactCell.appendChild(icon);
     });
     row.appendChild(contactCell);
 
-    // Actions
+    // Действия
     const actionCell = document.createElement('td');
     actionCell.classList.add('action-buttons');
 
@@ -110,6 +125,7 @@ function loadClients() {
     clientList.appendChild(row);
   });
 }
+
 
 function openEditModal(client) {
   editedClient = client;
@@ -148,6 +164,71 @@ function confirmDelete() {
   document.getElementById('delete-modal').classList.add('hidden');
   loadClients();
 }
+
+// Переменные для функции "Добавить клиента"
+let newClient = null;
+
+function openAddModal() {
+  // Сброс модальных входов
+  document.getElementById('new-client-fullname').value = '';
+  document.getElementById('new-client-created-at').value = '';
+  document.getElementById('new-client-contact-methods').value = '';
+
+  // Показать модальное окно
+  document.getElementById('add-modal').classList.remove('hidden');
+}
+
+function saveNewClient() {
+  const fullName = document.getElementById('new-client-fullname').value;
+  const createdAt = document.getElementById('new-client-created-at').value;
+  const contactMethods = Array.from(
+    document.getElementById('new-client-contact-methods').selectedOptions
+  ).map((option) => option.value);
+
+  // Validate the form
+  if (!fullName || !createdAt) {
+    alert('Пожалуйста заполните все поля.');
+    return;
+  }
+
+  // Создание айди для нового клиента
+  const newId = String(clients.length + 1);
+
+  // Создание данных нового клиента
+  newClient = {
+    id: newId,
+    fullName,
+    createdAt,
+    updatedAt: new Date().toISOString().slice(0, 16).replace('T', ' '),
+    contactMethods,
+  };
+
+  // Добавление нового клиента в список
+  clients.push(newClient);
+
+  // Спрятать модальное окно
+  document.getElementById('add-modal').classList.add('hidden');
+
+  // Перезагрузка списка клиентов
+  loadClients();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Add Client button click
+  document.querySelector('.add-client-button').addEventListener('click', openAddModal);
+
+  document.getElementById('add-client-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    saveNewClient();
+  });
+
+  // Cancel button in Add Client modal
+  document.querySelector('#add-modal .cancel-button').addEventListener('click', () => {
+    document.getElementById('add-modal').classList.add('hidden');
+  });
+});
+
 
 document.addEventListener('DOMContentLoaded', () => {
   loadClients();

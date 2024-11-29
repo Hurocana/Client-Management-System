@@ -1,4 +1,4 @@
-/* Global styles */
+/*Общие стили*/
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -17,7 +17,7 @@ button {
   cursor: pointer;
 }
 
-/* Header styles */
+/*Header стили*/
 .header {
   display: flex;
   justify-content: space-between;
@@ -57,12 +57,10 @@ button {
   height: 16px;
 }
 
-/* Align site title */
 .title {
   margin-left: auto;
 }
 
-/* Main Content styles */
 .main-content {
   padding: 16px;
 }
@@ -121,7 +119,7 @@ button {
   height: 20px;
 }
 
-/* Modal styles */
+/* Модальные стили */
 .modal {
   position: fixed;
   top: 0;
@@ -221,3 +219,32 @@ button {
 .sort-button:hover {
   color: #583cd1;
 }
+
+.contact-icon {
+  position: relative;
+  cursor: pointer;
+}
+
+.contact-icon:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%; /* Tooltip appears above the icon */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  z-index: 10;
+  opacity: 1;
+  visibility: visible;
+}
+
+.contact-icon::after {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out;
+}
+

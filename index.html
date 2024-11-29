@@ -8,12 +8,12 @@
   <script defer src="scripts.js"></script>
 </head>
 <body>
-  <!-- Header -->
+  <!--Header-->
   <header class="header">
     <div class="logo-container">
       <img src="./icons/avatar.png" alt="Logo" class="logo">
       <div class="search-bar">
-        <input type="text" id="search" placeholder="Search clients..." />
+        <input type="text" id="search" placeholder="Поиск..." />
         <button class="search-button">
           <img src="./icons/search.png" alt="Search Icon">
         </button>
@@ -22,7 +22,7 @@
     <h1 class="title">Client Management</h1>
   </header>
 
-  <!-- Main Content -->
+  <!--Main-->
   <main class="main-content">
     <div class="data-grid-container">
       <table class="data-grid">
@@ -33,70 +33,95 @@
               <button class="sort-button" data-column="id" data-order="asc">↕</button>
             </th>
             <th>
-              Full Name
+              Полное имя
               <button class="sort-button" data-column="fullName" data-order="asc">↕</button>
             </th>
             <th>
-              Created At
+              Дата регистрации
               <button class="sort-button" data-column="createdAt" data-order="asc">↕</button>
             </th>
             <th>
-              Updated At
+              Редактировано
               <button class="sort-button" data-column="updatedAt" data-order="asc">↕</button>
             </th>
-            <th>Contacts</th>
-            <th>Actions</th>
+            <th>Контакты</th>
+            <th>Действия</th>
           </tr>
         </thead>
         <tbody id="client-list">
-          <!-- Rows will be inserted dynamically -->
         </tbody>
       </table>
     </div>
-    <button class="add-client-button">Add Client</button>
+    <button class="add-client-button">Добавить клиента</button>
   </main>
 
-  <!-- Edit Modal -->
+  <!-- Модальное окно Edit -->
   <div id="edit-modal" class="modal hidden">
     <div class="modal-content">
-      <h2>Edit Client</h2>
+      <h2>Редактировать</h2>
       <form id="edit-client-form">
         <label for="client-id">ID</label>
         <input type="text" id="client-id" disabled>
         
-        <label for="client-fullname">Full Name</label>
+        <label for="client-fullname">Полное имя</label>
         <input type="text" id="client-fullname" required>
         
-        <label for="client-created-at">Created At</label>
+        <label for="client-created-at">Дата регистрации</label>
         <input type="text" id="client-created-at" disabled>
         
-        <label for="client-updated-at">Updated At</label>
+        <label for="client-updated-at">Редактировано</label>
         <input type="text" id="client-updated-at" required>
         
-        <label for="client-contacts">Contact Methods</label>
+        <label for="client-contacts">Контакты</label>
         <select id="client-contacts" multiple>
-          <option value="email">Email</option>
-          <option value="phone">Phone</option>
+          <option value="email">Почта</option>
+          <option value="phone">Телефон</option>
         </select>
         
         <div class="modal-buttons">
-          <button type="submit" class="save-button">Save</button>
-          <button type="button" class="cancel-button">Cancel</button>
+          <button type="submit" class="save-button">Сохранить</button>
+          <button type="button" class="cancel-button">Отмена</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Delete Confirmation Modal -->
+  <!-- Модальное окно Delete -->
   <div id="delete-modal" class="modal hidden">
     <div class="modal-content">
-      <h2>Confirm Deletion</h2>
-      <p>Are you sure you want to delete this client?</p>
+      <h2>Внимание</h2>
+      <p>Вы уверены что хотите удалить этого клиента?</p>
       <div class="modal-buttons">
-        <button id="confirm-delete" class="delete-button">Delete</button>
-        <button id="cancel-delete" class="cancel-button">Cancel</button>
+        <button id="confirm-delete" class="delete-button">Удалить</button>
+        <button id="cancel-delete" class="cancel-button">Отмена</button>
       </div>
     </div>
   </div>
+
+  <!-- Модальное окно AddClient -->
+<div id="add-modal" class="modal hidden">
+  <div class="modal-content">
+    <h2>Добавить нового клиента</h2>
+    <form id="add-client-form">
+      <label for="new-client-fullname">Полное имя</label>
+      <input type="text" id="new-client-fullname" required>
+      
+      <label for="new-client-created-at">Дата регистрации</label>
+      <input type="datetime-local" id="new-client-created-at" required>
+      
+      <label for="new-client-contact-methods">Контакты</label>
+      <select id="new-client-contact-methods" multiple>
+        <option value="email">Почта</option>
+        <option value="phone">Телефон</option>
+      </select>
+      
+      <div class="modal-buttons">
+        <button type="submit" class="save-button">Добавить</button>
+        <button type="button" class="cancel-button">Отмена</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 </body>
 </html>
